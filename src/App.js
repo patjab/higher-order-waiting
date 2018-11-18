@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+import HighScores from './components/HighScores'
+
 class App extends Component {
+  state = {
+    highScores: null
+  }
+
+  componentDidMount() {
+    fetch('https://impatience-api.herokuapp.com/api/v1/high_scores')
+    .then(r => r.json())
+    .then(data => {
+      setTimeout(() => {
+        this.setState({ highScores: data})
+      }, 2000)
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <HighScores highScores={this.state.highScores} />
       </div>
-    );
+    )
   }
 }
 
